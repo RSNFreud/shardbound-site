@@ -18,12 +18,12 @@
     transition: 0.3s all ease-in-out;
 
     &:hover {
-        background: #FFE70D;
+        background: #f8e28b;
         color: black;
     }
 
     &.active {
-        background: #FFE70D;
+        background: #f8e28b;
         color: black;
     }
 }
@@ -74,7 +74,7 @@
 }
 
 .memberRole {
-    color: #FFE70D;
+    color: #f8e28b;
     text-align: center;
     font-size: 18px;
 }
