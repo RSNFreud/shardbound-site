@@ -45,6 +45,8 @@
 .profilePic {
     width: 150px;
     height: 150px;
+    position: relative;
+    overflow: hidden;
     background-color: black;
     border-radius: 100%;
 }
@@ -75,4 +77,13 @@
     color: #FFE70D;
     text-align: center;
     font-size: 18px;
+}
+
+.icons {
+    color: #FFFDFD;
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
 }
