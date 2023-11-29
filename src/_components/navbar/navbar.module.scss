@@ -1,0 +1,29 @@
+.navbar {
+    background: #000;
+    padding: 0px 70px;
+    color: #FFF;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    height: 100%;
+    padding: 10px 0;
+
+    img {
+        height: 100%;
+        width: auto;
+    }
+}
+
+.navLink {
+    font-family: var(--font-minecrafter);
+    font-weight: 400;
+    transition: 0.3s all linear;
+
+    &:hover {
+        color: #FFE70D;
+    }
+}

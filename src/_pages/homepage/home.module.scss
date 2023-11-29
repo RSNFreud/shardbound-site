@@ -1,0 +1,78 @@
+.roleChooser {
+    display: inline-flex;
+    justify-content: center;
+    background: #2D2D2D;
+    gap: 12px;
+    margin: 40px auto 60px;
+}
+
+.role {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 21px;
+    cursor: pointer;
+    font-weight: 400;
+    transition: 0.3s all ease-in-out;
+
+    &:hover {
+        background: #FFE70D;
+        color: black;
+    }
+
+    &.active {
+        background: #FFE70D;
+        color: black;
+    }
+}
+
+.pageWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.grid {
+    display: grid;
+    gap: 80px;
+    grid-auto-flow: column;
+    justify-content: center;
+}
+
+.profilePic {
+    width: 150px;
+    height: 150px;
+    background-color: black;
+    border-radius: 100%;
+}
+
+.teamMember {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.name {
+    color: #FFFDFD;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 400;
+    margin: 20px 0 5px;
+}
+
+.location {
+    color: #BDB7B7;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.memberRole {
+    color: #FFE70D;
+    text-align: center;
+    font-size: 18px;
+}

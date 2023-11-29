@@ -1,0 +1,25 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: var(--font-minecrafter);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+}
+
+button {
+    appearance: none;
+    border: none;
+    background: transparent;
+}
