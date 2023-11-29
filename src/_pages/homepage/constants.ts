@@ -51,7 +51,7 @@ export const TEAM_MEMBERS: {
         },
         {
             group: ["Development Managers"],
-            role: "Build & Art Manager",
+            role: "Art & Build Manager",
             image: Matty,
             name: "Matty",
             location: "United Kingdom",
