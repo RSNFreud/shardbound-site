@@ -14,9 +14,9 @@ import Wright from './images/wright.webp'
 export const roles = [
     "Development Managers",
     "Mod Developers",
+    "Designers",
     "Artists",
     "Builders",
-    "Designers",
 ] as const;
 
 export const TEAM_MEMBERS: {
