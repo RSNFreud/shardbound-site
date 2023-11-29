@@ -4,8 +4,8 @@ import "./globals.scss";
 import classNames from "classnames";
 import { Navbar } from "@/_components/navbar/navbar";
 import s from "./layout.module.scss";
-import Image from "next/image";
 import Background from "./img/background.png";
+import { StaticImage } from "@/_components/staticImage";
 
 // Font files can be colocated inside of `app`
 const Minecrafter = localFont({
@@ -57,7 +57,13 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
-        <Image src={Background} alt="" priority fill className={s.background} />
+        <StaticImage
+          src={Background}
+          alt=""
+          priority
+          fill
+          className={s.background}
+        />
       </body>
     </html>
   );

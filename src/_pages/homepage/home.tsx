@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FaDiscord, FaTwitch, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import Image from "next/image";
+import { StaticImage } from "@/_components/staticImage";
 
 export const Home = () => {
   const [activeRole, setActiveRole] = useState("Development Managers");
@@ -31,7 +32,7 @@ export const Home = () => {
             <div className={s.teamMember} key={member.name}>
               <div className={s.profilePic}>
                 {typeof member.image !== "undefined" && (
-                  <Image src={member.image} alt="" fill />
+                  <StaticImage src={member.image} alt="" fill />
                 )}
               </div>
               <div className={s.name}>{member.name}</div>
