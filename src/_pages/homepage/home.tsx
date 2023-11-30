@@ -7,7 +7,6 @@ import { TEAM_MEMBERS, roles } from "./constants";
 import Link from "next/link";
 import { FaDiscord, FaReddit, FaTwitch, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import Image from "next/image";
 import { StaticImage } from "@/_components/staticImage";
 
 export const Home = () => {

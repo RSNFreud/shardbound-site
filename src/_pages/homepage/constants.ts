@@ -10,6 +10,9 @@ import Lux from './images/Lux.webp'
 import Pyder from './images/pyder.webp'
 import Bonker from './images/bonker.webp'
 import Wright from './images/wright.webp'
+import Hell from './images/stick.png'
+import Snow from './images/snow.webp'
+import Symbiance from './images/symbiance.webp'
 
 export const roles = [
     "Development Managers",
@@ -131,5 +134,31 @@ export const TEAM_MEMBERS: {
             image: Wright,
             location: "United States",
             discord: "346709211666972682",
+        },
+        {
+            group: ["Designers"],
+            role: "Designer",
+            name: "Hellfirem4ge",
+            image: Hell,
+            location: "United Kingdom",
+            discord: "186189755111833600",
+            youtube: "@hellfirem4ge",
+            twitch: "therealhellfirem4ge"
+        },
+        {
+            group: ["Designers"],
+            role: "Designer",
+            name: "snow",
+            image: Snow,
+            location: "United States",
+            discord: "170749628826910720",
+        },
+        {
+            group: ["Mod Developers"],
+            role: "Mod Developer",
+            name: "Symbiance",
+            image: Symbiance,
+            location: "United States",
+            discord: "200104771510730752",
         }
     ]
