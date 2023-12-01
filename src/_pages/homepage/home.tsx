@@ -12,6 +12,16 @@ import { StaticImage } from "@/_components/staticImage";
 export const Home = () => {
   const [activeRole, setActiveRole] = useState("Development Managers");
 
+  const sortedMembers = () => {
+    const filtered = TEAM_MEMBERS.filter(
+      (member) => member.group.filter((group) => group === activeRole).length
+    );
+    if (activeRole === "Development Managers") return filtered;
+    return filtered.sort((a, b) =>
+      b.name.toLowerCase() > a.name.toLowerCase() ? -1 : 0
+    );
+  };
+
   return (
     <div className={s.pageWrapper}>
       <div className={s.roleChooser}>
@@ -26,10 +36,7 @@ export const Home = () => {
         ))}
       </div>
       <div className={s.grid}>
-        {TEAM_MEMBERS.filter(
-          (member) =>
-            member.group.filter((group) => group === activeRole).length
-        ).map((member) => (
+        {sortedMembers().map((member) => (
           <div className={s.teamMember} key={member.name}>
             <div className={s.profilePic}>
               {typeof member.image !== "undefined" && (

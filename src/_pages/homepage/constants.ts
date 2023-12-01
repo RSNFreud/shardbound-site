@@ -13,6 +13,7 @@ import Wright from './images/wright.webp'
 import Hell from './images/stick.png'
 import Snow from './images/snow.webp'
 import Symbiance from './images/symbiance.webp'
+import Cody from './images/cody.webp'
 
 export const roles = [
     "Development Managers",
@@ -160,5 +161,13 @@ export const TEAM_MEMBERS: {
             image: Symbiance,
             location: "United States",
             discord: "200104771510730752",
+        },
+        {
+            group: ["Mod Developers"],
+            role: "Mod Developer",
+            name: "codyhuh",
+            image: Cody,
+            location: "United States",
+            discord: "224632987566866432",
         }
     ]
