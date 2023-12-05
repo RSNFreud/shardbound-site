@@ -14,6 +14,7 @@ import Hell from './images/stick.png'
 import Snow from './images/snow.webp'
 import Symbiance from './images/symbiance.webp'
 import Cody from './images/cody.webp'
+import Evat from './images/evat.webp'
 
 export const roles = [
     "Development Managers",
@@ -169,5 +170,14 @@ export const TEAM_MEMBERS: {
             image: Cody,
             location: "United States",
             discord: "224632987566866432",
+        },
+        {
+            group: ["Designers"],
+            role: "Designer",
+            name: "Evat",
+            image: Evat,
+            location: "United States",
+            discord: "803713655912267797",
+            twitter: "EvatLeigh"
         }
     ]
