@@ -12,7 +12,6 @@ import Wright from './images/wright.webp'
 import Hell from './images/stick.png'
 import Snow from './images/snow.webp'
 import Symbiance from './images/symbiance.webp'
-import Cody from './images/cody.webp'
 
 export const roles = [
   'Development Managers',
