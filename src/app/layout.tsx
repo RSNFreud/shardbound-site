@@ -37,7 +37,7 @@ const MinecraftTen = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Shardbound",
+  title: "Shardborne",
   robots: "norobots",
 };
 
