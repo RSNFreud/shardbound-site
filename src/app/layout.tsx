@@ -38,6 +38,9 @@ const MinecraftTen = localFont({
 
 export const metadata: Metadata = {
   title: "Shardborne",
+  icons: {
+    icon: "logo.png",
+  },
   robots: "norobots",
 };
 
