@@ -1,6 +1,6 @@
 import Link from "next/link";
 import s from "./navbar.module.scss";
-import Logo from "./img/shardboundlogo.png";
+import Logo from "./img/logo.png";
 import { StaticImage } from "../staticImage";
 
 export const Navbar = () => {
