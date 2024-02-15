@@ -13,6 +13,8 @@ import Hell from './images/stick.png'
 import Snow from './images/snow.webp'
 import Chicken from './images/chicken.png'
 import Symbiance from './images/symbiance.webp'
+import Rut from './images/rut.png'
+import Pierre from './images/pierre.webp'
 
 export const roles = [
     'Development Managers',
@@ -33,6 +35,8 @@ export const TEAM_MEMBERS: {
     twitch?: string
     reddit?: string
     youtube?: string
+    linkedin?: string
+    github?: string
 }[] = [
         {
             group: ['Development Managers'],
@@ -161,5 +165,24 @@ export const TEAM_MEMBERS: {
             location: 'United States',
             discord: '398323349006319620',
             youtube: "channel/UC2RXFOZPyUoVn_-TDMdeHgw"
+        },
+        {
+            group: ['Artists'],
+            role: 'Artist',
+            name: '_Pierre_662',
+            image: Pierre,
+            location: 'United States',
+            discord: '522124276686651399',
+            youtube: 'channel/UCU8nXQjqx90eVs7tMc2kjRg'
+        },
+        {
+            group: ['Mod Developers'],
+            role: 'Mod Developer',
+            name: 'rut',
+            image: Rut,
+            location: 'United States',
+            discord: '203113961548152832',
+            github: 'wfraher',
+            linkedin: "william-fraher-1624a4198/"
         },
     ]

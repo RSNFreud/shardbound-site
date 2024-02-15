@@ -5,7 +5,14 @@ import s from "./home.module.scss";
 import classNames from "classnames";
 import { TEAM_MEMBERS, roles } from "./constants";
 import Link from "next/link";
-import { FaDiscord, FaReddit, FaTwitch, FaYoutube } from "react-icons/fa";
+import {
+  FaDiscord,
+  FaGithub,
+  FaLinkedin,
+  FaReddit,
+  FaTwitch,
+  FaYoutube,
+} from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { StaticImage } from "@/_components/staticImage";
 
@@ -85,6 +92,22 @@ export const Home = () => {
                   target="_blank"
                 >
                   <FaReddit />
+                </Link>
+              )}
+              {Boolean(member.linkedin) && (
+                <Link
+                  href={`https://www.linkedin.com/in/${member.reddit}`}
+                  target="_blank"
+                >
+                  <FaLinkedin />
+                </Link>
+              )}
+              {Boolean(member.github) && (
+                <Link
+                  href={`https://github.com/${member.github}`}
+                  target="_blank"
+                >
+                  <FaGithub />
                 </Link>
               )}
             </div>
