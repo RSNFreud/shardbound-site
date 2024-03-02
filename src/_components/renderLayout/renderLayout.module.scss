@@ -1,0 +1,12 @@
+.background {
+    z-index: 0;
+    mix-blend-mode: overlay;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.wrapper {
+    position: relative;
+    min-height: 100vh;
+    background: #202020;
+}

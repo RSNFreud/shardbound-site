@@ -1,0 +1,65 @@
+.input {
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    padding: 8px 15px;
+    height: 40px;
+    outline: none;
+    transition: 0.15s all;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+
+    &:hover,
+    &:focus {
+        border: 1px solid #d4d4d4;
+    }
+}
+
+.error {
+    font-size: 12px;
+    margin-top: 6px;
+    color: rgb(204, 65, 65);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.addTime {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #beb9b9;
+    margin-top: 3px;
+}
+
+.times {
+    display: grid;
+    grid-auto-flow: row;
+    gap: 15px;
+}
+
+.rowWrapper {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: auto;
+    gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.delete {
+    color: #E1E1E1;
+    cursor: pointer;
+    transition: 0.3s all;
+
+    &:hover {
+        color: rgb(204, 65, 65);
+    }
+}

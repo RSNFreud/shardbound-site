@@ -1,0 +1,29 @@
+.input {
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
+    transition: 0.15s all;
+
+    &:hover,
+    &:focus {
+        border: 1px solid #d4d4d4;
+    }
+}
+
+.wrapper {
+    padding-top: 10px;
+    display: flex;
+}
+
+.error {
+    font-size: 12px;
+    margin-top: 6px;
+    color: rgb(204, 65, 65);
+}
+
+.label {
+    padding-left: 5px;
+    font-size: 14px;
+}

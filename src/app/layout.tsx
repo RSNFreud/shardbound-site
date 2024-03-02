@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.scss";
 import classNames from "classnames";
-import { Navbar } from "@/_components/navbar/navbar";
-import s from "./layout.module.scss";
-import Background from "./img/background.png";
-import { StaticImage } from "@/_components/staticImage";
+import { RenderLayout } from "@/_components/renderLayout/renderLayout";
+import { Roboto } from "next/font/google";
 
 // Font files can be colocated inside of `app`
 const Minecrafter = localFont({
@@ -36,6 +34,12 @@ const MinecraftTen = localFont({
   variable: "--font-minecraft-ten",
 });
 
+const RobotoFont = Roboto({
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-roboto",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Shardborne",
   icons: {
@@ -55,18 +59,10 @@ export default function RootLayout({
         className={classNames(
           Minecrafter.variable,
           MinecraftTen.variable,
-          s.wrapper
+          RobotoFont.variable
         )}
       >
-        <Navbar />
-        {children}
-        <StaticImage
-          src={Background}
-          alt=""
-          priority
-          fill
-          className={s.background}
-        />
+        <RenderLayout>{children}</RenderLayout>
       </body>
     </html>
   );

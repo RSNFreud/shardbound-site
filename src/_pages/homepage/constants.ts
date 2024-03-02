@@ -15,6 +15,7 @@ import Chicken from './images/chicken.png'
 import Symbiance from './images/symbiance.webp'
 import Rut from './images/rut.png'
 import Pierre from './images/pierre.webp'
+import Evat from './images/evat.webp'
 
 export const roles = [
     'Development Managers',
@@ -45,6 +46,15 @@ export const TEAM_MEMBERS: {
             name: 'Jay',
             location: 'Belgium',
             discord: '380999267524935680',
+        },
+        {
+            group: ["Designers"],
+            role: "Designer",
+            name: "Evat",
+            image: Evat,
+            location: "United States",
+            discord: "803713655912267797",
+            twitter: "EvatLeigh"
         },
         {
             group: ['Development Managers'],

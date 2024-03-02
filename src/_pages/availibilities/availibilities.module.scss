@@ -1,0 +1,48 @@
+.wrapper {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E6E6E6;
+
+    * {
+        font-family: var(--font-roboto);
+    }
+}
+
+.box {
+    padding: 20px;
+    border-radius: 4px;
+    background: #fff;
+    width: 590px;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 150%;
+    text-align: center;
+}
+
+.text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    margin: 10px 0 8px;
+}
+
+.subtext {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+}
+
+.seperator {
+    background: #efefef;
+    height: 1px;
+    width: 100%;
+    display: block;
+    margin: 20px 0;
+}
