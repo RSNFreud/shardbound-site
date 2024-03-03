@@ -2,7 +2,7 @@
 import { Input } from "@/_components/input/input";
 import s from "./availibilities.module.scss";
 import { Button } from "@/_components/button/button";
-import { memo, useCallback, useEffect, useState } from "react";
+import { Suspense, memo, useCallback, useEffect, useState } from "react";
 import {
   DEFAULT_TIME,
   TimePicker,
@@ -217,33 +217,36 @@ export const Availibilities = () => {
   }, [urlParams]);
 
   return (
-    <div className={s.wrapper}>
-      {isAuthed && (
-        <div className={s.box}>
-          <div
-            className={s.title}
-            style={{ marginBottom: stage === 0 || stage === 8 ? 0 : 20 }}
-          >
-            Shardborne Availability
+    <Suspense>
+      <div className={s.wrapper}>
+        {isAuthed && (
+          <div className={s.box}>
+            <div
+              className={s.title}
+              style={{ marginBottom: stage === 0 || stage === 8 ? 0 : 20 }}
+            >
+              Shardborne Availability
+            </div>
+            <GetContent
+              data={data}
+              errors={errors}
+              key={stage}
+              stage={stage}
+              back={() => setStage((stage) => stage - 1)}
+              next={next}
+              update={(key, value) => setData({ ...data, [key]: value })}
+              submit={submit}
+            />
           </div>
-          <GetContent
-            data={data}
-            errors={errors}
-            key={stage}
-            stage={stage}
-            back={() => setStage((stage) => stage - 1)}
-            next={next}
-            update={(key, value) => setData({ ...data, [key]: value })}
-            submit={submit}
-          />
-        </div>
-      )}
-      {!isAuthed && !isLoading && (
-        <div className={s.box}>
-          Your auth key has expired! Please generate a new code by running&nbsp;
-          <em>/generate-availabilities</em> in the Discord.
-        </div>
-      )}
-    </div>
+        )}
+        {!isAuthed && !isLoading && (
+          <div className={s.box}>
+            Your auth key has expired! Please generate a new code by
+            running&nbsp;
+            <em>/generate-availabilities</em> in the Discord.
+          </div>
+        )}
+      </div>
+    </Suspense>
   );
 };
