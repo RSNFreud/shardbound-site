@@ -156,6 +156,7 @@ export const Availibilities = () => {
     sunday: DEFAULT_TIME,
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isLoading, setIsLoading] = useState(true);
   const [isAuthed, setIsAuthed] = useState(false);
   const urlParams = useSearchParams();
   const authKey = urlParams.get("authKey");
@@ -176,7 +177,7 @@ export const Availibilities = () => {
       return (cleanData[name] = JSON.stringify(value));
     });
 
-    fetch("http://localhost:3001", {
+    fetch("https://shardborne.freud-online.co.uk/api/save-data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -187,25 +188,32 @@ export const Availibilities = () => {
   };
 
   useEffect(() => {
-    if (!authKey) return;
-    fetch(`http://localhost:3001/verify-member?authKey=${authKey}`)
+    if (!authKey) return setIsLoading(false);
+    fetch(
+      `https://shardborne.freud-online.co.uk/api/verify-member?authKey=${authKey}`
+    )
       .then(async (e) => {
         if (e.status === 200) {
-          const storedData: string[] | undefined = await e.json();
-          if (storedData) {
-            const cleanData: { [key: string]: string } = {};
+          if (e.headers.get("Content-Length") !== "0") {
+            const storedData: string[] | undefined = await e.json();
+            if (storedData) {
+              const cleanData: { [key: string]: string } = {};
 
-            Object.entries(storedData).map(([name, value]) => {
-              if (name === "username") return (cleanData[name] = value);
+              Object.entries(storedData).map(([name, value]) => {
+                if (name === "username") return (cleanData[name] = value);
 
-              return (cleanData[name] = JSON.parse(value));
-            });
-            setData((rest) => ({ ...rest, ...cleanData }));
+                return (cleanData[name] = JSON.parse(value));
+              });
+              setData((rest) => ({ ...rest, ...cleanData }));
+            }
           }
           setIsAuthed(true);
         }
+        setIsLoading(false);
       })
-      .catch();
+      .catch(() => {
+        setIsLoading(false);
+      });
   }, [urlParams]);
 
   return (
@@ -228,6 +236,12 @@ export const Availibilities = () => {
             update={(key, value) => setData({ ...data, [key]: value })}
             submit={submit}
           />
+        </div>
+      )}
+      {!isAuthed && !isLoading && (
+        <div className={s.box}>
+          Your auth key has expired! Please generate a new code by running&nbsp;
+          <em>/generate-availabilities</em> in the Discord.
         </div>
       )}
     </div>
