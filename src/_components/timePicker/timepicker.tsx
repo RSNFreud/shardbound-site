@@ -43,9 +43,6 @@ export const TimePicker = ({
   };
 
   useEffect(() => {
-    console.log("====================================");
-    console.log(46, value);
-    console.log("====================================");
     setTimes(value || DEFAULT_TIME);
   }, [value]);
 

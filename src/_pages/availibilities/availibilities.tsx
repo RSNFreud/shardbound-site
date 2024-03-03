@@ -2,13 +2,12 @@
 import { Input } from "@/_components/input/input";
 import s from "./availibilities.module.scss";
 import { Button } from "@/_components/button/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   DEFAULT_TIME,
   TimePicker,
   TimeType,
 } from "@/_components/timePicker/timepicker";
-import { Checkbox } from "@/_components/checkbox/checkbox";
 
 type FormData = {
   username: string;
@@ -31,6 +30,42 @@ const STAGES = [
   "SATURDAY",
   "SUNDAY",
 ] as const;
+
+const Default = ({
+  onUpdate,
+  value,
+  next,
+  error,
+}: {
+  onUpdate: (name: string) => void;
+  value?: string;
+  error?: string;
+  next: () => void;
+}) => (
+  <>
+    <div className={s.text}>
+      This form is used to add/update your availability while working on the
+      Shardborne modpack.
+    </div>
+    <div className={s.subtext}>
+      Note that we will not hold you to these times. These simply make it
+      significantly easier to know when you are available and able to dedicate
+      time to the project.
+    </div>
+    <div className={s.seperator} />
+    <Input
+      label="Enter your username/nickname:"
+      value={value}
+      onInput={(e) => onUpdate((e.target as any).value)}
+      id="username"
+      autoFocus
+      error={error}
+    />
+    <Button style={{ marginTop: 15 }} onClick={next}>
+      Continue
+    </Button>
+  </>
+);
 
 export const Availibilities = () => {
   const [stage, setStage] = useState(0);
@@ -64,41 +99,28 @@ export const Availibilities = () => {
     setStage((stage) => stage + 1);
   };
 
-  const getContent = () => {
+  const submit = () => {
+    console.log("====================================");
+    console.log(data);
+    console.log("====================================");
+  };
+
+  const GetContent = () => {
     const field = STAGES[stage];
     switch (stage) {
       case 0:
         return (
-          <>
-            <div className={s.text}>
-              This form is used to add/update your availability while working on
-              the Shardborne modpack.
-            </div>
-            <div className={s.subtext}>
-              Note that we will not hold you to these times. These simply make
-              it significantly easier to know when you are available and able to
-              dedicate time to the project.
-            </div>
-            <div className={s.seperator} />
-            <Input
-              label="Enter your username/nickname:"
-              value={data.username}
-              onChange={(e) =>
-                setData((rest) => ({
-                  ...rest,
-                  username: (e.target as any).value,
-                }))
-              }
-              id="username"
-              error={errors.username}
-            />
-            <Button
-              style={{ marginTop: 15 }}
-              onClick={() => validateAndContinueText("username")}
-            >
-              Continue
-            </Button>
-          </>
+          <Default
+            onUpdate={(e) =>
+              setData((rest) => ({
+                ...rest,
+                username: e,
+              }))
+            }
+            value={data.username}
+            error={errors.username}
+            next={() => validateAndContinueText("username")}
+          />
         );
       case 1:
       case 2:
@@ -130,10 +152,7 @@ export const Availibilities = () => {
               Thank you for completing this form! Please click the button below
               to submit!
             </div>
-            <Button
-              style={{ marginTop: 15 }}
-              onClick={() => validateAndContinueText("username")}
-            >
+            <Button style={{ marginTop: 15 }} onClick={submit}>
               Submit
             </Button>
             <Button
@@ -157,7 +176,7 @@ export const Availibilities = () => {
         >
           Shardborne Availibility
         </div>
-        {getContent()}
+        <GetContent />
       </div>
     </div>
   );
