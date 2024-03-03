@@ -10,7 +10,7 @@ import s from "./renderLayout.module.scss";
 export const RenderLayout = ({ children }: { children: React.ReactNode }) => {
   const path = usePathname();
 
-  const isBlankLayout = path.includes("availibilities");
+  const isBlankLayout = path.includes("availabilities");
 
   return isBlankLayout ? (
     children
