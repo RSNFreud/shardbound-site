@@ -44,7 +44,7 @@ export const TimePicker = ({
 
   useEffect(() => {
     setTimes(value || DEFAULT_TIME);
-  }, [value]);
+  }, []);
 
   const addTimeslot = () => {
     setTimes((rest) => [...rest, ...DEFAULT_TIME]);

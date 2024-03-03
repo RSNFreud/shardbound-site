@@ -2,12 +2,13 @@
 import { Input } from "@/_components/input/input";
 import s from "./availibilities.module.scss";
 import { Button } from "@/_components/button/button";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import {
   DEFAULT_TIME,
   TimePicker,
   TimeType,
 } from "@/_components/timePicker/timepicker";
+import { useParams, useSearchParams } from "next/navigation";
 
 type FormData = {
   username: string;
@@ -118,7 +119,7 @@ const GetContent = ({
           />
         </>
       );
-    default:
+    case 8:
       return (
         <>
           <div className={s.text}>
@@ -131,6 +132,12 @@ const GetContent = ({
           <Button style={{ marginTop: 10 }} variant="ghost" onClick={back}>
             Back
           </Button>
+        </>
+      );
+    case 9:
+      return (
+        <>
+          <div className={s.text}>Your data has been saved!</div>
         </>
       );
   }
@@ -149,6 +156,9 @@ export const Availibilities = () => {
     sunday: DEFAULT_TIME,
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isAuthed, setIsAuthed] = useState(false);
+  const urlParams = useSearchParams();
+  const authKey = urlParams.get("authKey");
 
   const next = () => {
     if (!data.username) setErrors({ username: MISSING_DATA });
@@ -156,30 +166,70 @@ export const Availibilities = () => {
   };
 
   const submit = () => {
-    console.log("====================================");
-    console.log(data);
-    console.log("====================================");
+    const cleanData: { [key: string]: string } = {};
+
+    Object.entries(data).map(([name, value]) => {
+      if (typeof value === "string") return (cleanData[name] = value);
+      value.map((e) => {
+        delete e.error;
+      });
+      return (cleanData[name] = JSON.stringify(value));
+    });
+
+    fetch("http://localhost:3001", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: cleanData, authKey: authKey }),
+    });
+    next();
   };
+
+  useEffect(() => {
+    if (!authKey) return;
+    fetch(`http://localhost:3001/verify-member?authKey=${authKey}`)
+      .then(async (e) => {
+        if (e.status === 200) {
+          const storedData: string[] | undefined = await e.json();
+          if (storedData) {
+            const cleanData: { [key: string]: string } = {};
+
+            Object.entries(storedData).map(([name, value]) => {
+              if (name === "username") return (cleanData[name] = value);
+
+              return (cleanData[name] = JSON.parse(value));
+            });
+            setData((rest) => ({ ...rest, ...cleanData }));
+          }
+          setIsAuthed(true);
+        }
+      })
+      .catch();
+  }, [urlParams]);
 
   return (
     <div className={s.wrapper}>
-      <div className={s.box}>
-        <div
-          className={s.title}
-          style={{ marginBottom: stage === 0 || stage === 8 ? 0 : 20 }}
-        >
-          Shardborne Availability
+      {isAuthed && (
+        <div className={s.box}>
+          <div
+            className={s.title}
+            style={{ marginBottom: stage === 0 || stage === 8 ? 0 : 20 }}
+          >
+            Shardborne Availability
+          </div>
+          <GetContent
+            data={data}
+            errors={errors}
+            key={stage}
+            stage={stage}
+            back={() => setStage((stage) => stage - 1)}
+            next={next}
+            update={(key, value) => setData({ ...data, [key]: value })}
+            submit={submit}
+          />
         </div>
-        <GetContent
-          data={data}
-          errors={errors}
-          stage={stage}
-          back={() => setStage((stage) => stage - 1)}
-          next={next}
-          update={(key, value) => setData({ ...data, [key]: value })}
-          submit={submit}
-        />
-      </div>
+      )}
     </div>
   );
 };

@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "classnames": "^2.3.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.9.2",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
