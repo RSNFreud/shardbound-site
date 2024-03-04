@@ -37,7 +37,7 @@ export const AvailibilityGrid = () => {
   let isDown = false;
 
   useEffect(() => {
-    fetch("http://localhost:3333/api/get-times")
+    fetch("https://shardborne.freud-online.co.uk/api/get-times")
       .then(async (e) => {
         if (e.ok) {
           const res = await e.json();
@@ -46,7 +46,6 @@ export const AvailibilityGrid = () => {
       })
       .catch();
   }, []);
-  if (!data) return null;
 
   const startScroll = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!slider.current) return;
@@ -61,6 +60,8 @@ export const AvailibilityGrid = () => {
     const walk = x - startX;
     slider.current.scrollLeft = scrollLeft - walk;
   };
+
+  if (!data || !data.length) return null;
 
   return (
     <>
@@ -114,9 +115,9 @@ export const AvailibilityGrid = () => {
                     if (!item.startTime || !item.endTime) return;
                     const width =
                       (parseInt(getLocaleHour(item.endTime)) -
-                        parseInt(getLocaleHour(item.startTime)) +
-                        1) *
-                      50;
+                        parseInt(getLocaleHour(item.startTime))) *
+                        50 +
+                      25;
                     const left = parseInt(getLocaleHour(item.startTime)) * 50;
                     return (
                       <div

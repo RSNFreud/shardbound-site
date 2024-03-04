@@ -87,6 +87,8 @@
     margin-top: 31px;
     padding: 5px 15px;
     column-gap: 15px;
+    display: grid;
+    grid-auto-flow: row;
     background: #f4f4f4;
     border-radius: 4px;
 }

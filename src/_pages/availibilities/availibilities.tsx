@@ -126,7 +126,7 @@ const GetContent = ({
 };
 
 export const Availibilities = () => {
-  const [stage, setStage] = useState(8);
+  const [stage, setStage] = useState(0);
 
   const [data, setData] = useState<FormData>({
     username: "",
@@ -147,8 +147,8 @@ export const Availibilities = () => {
     return setStage((stage) => stage + 1);
   };
 
-  // const url = "https://shardborne.freud-online.co.uk/api/"
-  const url = "http://localhost:3333/api/";
+  const url = "https://shardborne.freud-online.co.uk/api/";
+  // const url = "http://localhost:3333/api/";
 
   const submit = () => {
     const cleanData: { [key: string]: string } = {};
