@@ -18,6 +18,33 @@ export type TimeType = {
   error?: string;
 };
 
+export const addLeadingZero = (time: number) => {
+  if (time < 10) return `0${time}`;
+  return time;
+};
+
+export const getUTCHour = (time: string) => {
+  const [hour, minute] = time.split(":");
+  const date = new Date();
+  date.setHours(parseInt(hour));
+  date.setMinutes(parseInt(minute));
+
+  return `${addLeadingZero(date.getUTCHours())}:${addLeadingZero(
+    date.getUTCMinutes()
+  )}`;
+};
+
+export const getLocaleHour = (time: string) => {
+  const [hour, minute] = time.split(":");
+  const date = new Date();
+  date.setUTCHours(parseInt(hour));
+  date.setUTCMinutes(parseInt(minute));
+
+  return `${addLeadingZero(date.getHours())}:${addLeadingZero(
+    date.getMinutes()
+  )}`;
+};
+
 export const DEFAULT_TIME = [{ startTime: "", endTime: "", error: "" }];
 
 export const TimePicker = ({
@@ -80,33 +107,6 @@ export const TimePicker = ({
     date.setHours(parseInt(hour));
     date.setMinutes(parseInt(minute));
     return date;
-  };
-
-  const getUTCHour = (time: string) => {
-    const [hour, minute] = time.split(":");
-    const date = new Date();
-    date.setHours(parseInt(hour));
-    date.setMinutes(parseInt(minute));
-
-    return `${addLeadingZero(date.getUTCHours())}:${addLeadingZero(
-      date.getUTCMinutes()
-    )}`;
-  };
-
-  const getLocaleHour = (time: string) => {
-    const [hour, minute] = time.split(":");
-    const date = new Date();
-    date.setUTCHours(parseInt(hour));
-    date.setUTCMinutes(parseInt(minute));
-
-    return `${addLeadingZero(date.getHours())}:${addLeadingZero(
-      date.getMinutes()
-    )}`;
-  };
-
-  const addLeadingZero = (time: number) => {
-    if (time < 10) return `0${time}`;
-    return time;
   };
 
   return (

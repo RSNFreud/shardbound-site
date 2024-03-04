@@ -2,14 +2,14 @@
 import { Input } from "@/_components/input/input";
 import s from "./availibilities.module.scss";
 import { Button } from "@/_components/button/button";
-import { Suspense, memo, useCallback, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {
   DEFAULT_TIME,
   TimePicker,
   TimeType,
 } from "@/_components/timePicker/timepicker";
-import { useParams, useSearchParams } from "next/navigation";
 import { useAuthParams } from "./getSearchParams";
+import { SummaryScreen } from "./summaryScreen";
 
 type FormData = {
   username: string;
@@ -121,31 +121,12 @@ const GetContent = ({
         </>
       );
     case 8:
-      return (
-        <>
-          <div className={s.text}>
-            Thank you for completing this form! Please click the button below to
-            submit!
-          </div>
-          <Button style={{ marginTop: 15 }} onClick={submit}>
-            Submit
-          </Button>
-          <Button style={{ marginTop: 10 }} variant="ghost" onClick={back}>
-            Back
-          </Button>
-        </>
-      );
-    case 9:
-      return (
-        <>
-          <div className={s.text}>Your data has been saved!</div>
-        </>
-      );
+      return <SummaryScreen submit={submit} back={back} />;
   }
 };
 
 export const Availibilities = () => {
-  const [stage, setStage] = useState(0);
+  const [stage, setStage] = useState(8);
 
   const [data, setData] = useState<FormData>({
     username: "",
@@ -166,6 +147,9 @@ export const Availibilities = () => {
     return setStage((stage) => stage + 1);
   };
 
+  // const url = "https://shardborne.freud-online.co.uk/api/"
+  const url = "http://localhost:3333/api/";
+
   const submit = () => {
     const cleanData: { [key: string]: string } = {};
 
@@ -177,21 +161,18 @@ export const Availibilities = () => {
       return (cleanData[name] = JSON.stringify(value));
     });
 
-    fetch("https://shardborne.freud-online.co.uk/api/save-data", {
+    fetch(`${url}save-data`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ data: cleanData, authKey: authKey }),
     });
-    next();
   };
 
   useEffect(() => {
     if (!authKey) return setIsLoading(false);
-    fetch(
-      `https://shardborne.freud-online.co.uk/api/verify-member?authKey=${authKey}`
-    )
+    fetch(`${url}verify-member?authKey=${authKey}`)
       .then(async (e) => {
         if (e.status === 200) {
           if (e.headers.get("Content-Length") !== "0") {
