@@ -9,6 +9,7 @@ import {
   TimeType,
 } from "@/_components/timePicker/timepicker";
 import { useParams, useSearchParams } from "next/navigation";
+import { useAuthParams } from "./getSearchParams";
 
 type FormData = {
   username: string;
@@ -158,8 +159,7 @@ export const Availibilities = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthed, setIsAuthed] = useState(false);
-  const urlParams = useSearchParams();
-  const authKey = urlParams.get("authKey");
+  const authKey = useAuthParams();
 
   const next = () => {
     if (!data.username) setErrors({ username: MISSING_DATA });
@@ -214,7 +214,7 @@ export const Availibilities = () => {
       .catch(() => {
         setIsLoading(false);
       });
-  }, [urlParams]);
+  }, [authKey]);
 
   return (
     <Suspense>

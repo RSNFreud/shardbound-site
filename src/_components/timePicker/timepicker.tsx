@@ -57,8 +57,8 @@ export const TimePicker = ({
 
   const handleContinue = () => {
     const hasErrors = times.filter((time, index) => {
-      const start = generateTimestamp(time.startTime);
-      const end = generateTimestamp(time.endTime);
+      const start = generateTimestamp(getLocaleHour(time.startTime));
+      const end = generateTimestamp(getLocaleHour(time.endTime));
       if (time.startTime && !time.endTime) {
         updateTime("error", "Please choose a valid set of times", index);
         return time;
@@ -82,6 +82,33 @@ export const TimePicker = ({
     return date;
   };
 
+  const getUTCHour = (time: string) => {
+    const [hour, minute] = time.split(":");
+    const date = new Date();
+    date.setHours(parseInt(hour));
+    date.setMinutes(parseInt(minute));
+
+    return `${addLeadingZero(date.getUTCHours())}:${addLeadingZero(
+      date.getUTCMinutes()
+    )}`;
+  };
+
+  const getLocaleHour = (time: string) => {
+    const [hour, minute] = time.split(":");
+    const date = new Date();
+    date.setUTCHours(parseInt(hour));
+    date.setUTCMinutes(parseInt(minute));
+
+    return `${addLeadingZero(date.getHours())}:${addLeadingZero(
+      date.getMinutes()
+    )}`;
+  };
+
+  const addLeadingZero = (time: number) => {
+    if (time < 10) return `0${time}`;
+    return time;
+  };
+
   return (
     <div>
       <Label text={label} />
@@ -93,17 +120,25 @@ export const TimePicker = ({
                 <input
                   type="time"
                   className={s.input}
-                  value={startTime}
+                  value={getLocaleHour(startTime)}
                   onInput={(e) =>
-                    updateTime("startTime", (e.target as any).value, count)
+                    updateTime(
+                      "startTime",
+                      getUTCHour((e.target as any).value),
+                      count
+                    )
                   }
                 />
                 <input
                   type="time"
                   className={s.input}
-                  value={endTime}
+                  value={getLocaleHour(endTime)}
                   onInput={(e) =>
-                    updateTime("endTime", (e.target as any).value, count)
+                    updateTime(
+                      "endTime",
+                      getUTCHour((e.target as any).value),
+                      count
+                    )
                   }
                 />
               </div>
