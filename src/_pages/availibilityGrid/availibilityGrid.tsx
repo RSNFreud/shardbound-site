@@ -106,29 +106,32 @@ export const AvailibilityGrid = () => {
                   </div>
                 ))}
               </div>
-              <div className={s.row}>
-                {data.map((e) => {
-                  const dayData = JSON.parse(
-                    (e as any)[activeDay.toLowerCase()]
-                  ) as TimeType[];
-                  return dayData.map((item) => {
-                    if (!item.startTime || !item.endTime) return;
-                    const width =
-                      (parseInt(getLocaleHour(item.endTime)) -
-                        parseInt(getLocaleHour(item.startTime))) *
-                        50 +
-                      25;
-                    const left = parseInt(getLocaleHour(item.startTime)) * 50;
-                    return (
-                      <div
-                        className={s.available}
-                        style={{ left, width }}
-                        key={`${e.username}-${item.startTime}`}
-                      />
-                    );
-                  });
-                })}
-              </div>
+
+              {data.map((e) => {
+                const dayData = JSON.parse(
+                  (e as any)[activeDay.toLowerCase()]
+                ) as TimeType[];
+                return (
+                  <div className={s.row} key={e.username}>
+                    {dayData.map((item) => {
+                      if (!item.startTime || !item.endTime) return;
+                      const width =
+                        (parseInt(getLocaleHour(item.endTime)) -
+                          parseInt(getLocaleHour(item.startTime))) *
+                          50 +
+                        25;
+                      const left = parseInt(getLocaleHour(item.startTime)) * 50;
+                      return (
+                        <div
+                          className={s.available}
+                          style={{ left, width }}
+                          key={`${e.username}-${item.startTime}`}
+                        />
+                      );
+                    })}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
