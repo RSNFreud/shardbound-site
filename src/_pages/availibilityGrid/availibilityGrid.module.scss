@@ -129,6 +129,15 @@
     top: 50%;
     transform: translateY(-50%);
     background-color: #5AD767;
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    font-weight: 500;
+    line-height: normal;
+    display: flex;
+    user-select: none;
+    align-items: center;
+    justify-content: center;
 }
 
 .row {

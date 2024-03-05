@@ -126,7 +126,10 @@ export const AvailibilityGrid = () => {
                           className={s.available}
                           style={{ left, width }}
                           key={`${e.username}-${item.startTime}`}
-                        />
+                        >
+                          {getLocaleHour(item.startTime)} -{" "}
+                          {getLocaleHour(item.endTime)}
+                        </div>
                       );
                     })}
                   </div>
