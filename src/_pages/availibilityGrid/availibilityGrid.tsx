@@ -85,11 +85,26 @@ export const AvailibilityGrid = () => {
           </div>
           <div className={s.grid}>
             <div className={s.usernames}>
-              {data?.map(({ username }) => (
-                <div className={s.username} key={username}>
-                  {username}
-                </div>
-              ))}
+              {data?.map((e) => {
+                const { username } = e;
+                const dayData = JSON.parse(
+                  (e as any)[activeDay.toLowerCase()]
+                ) as TimeType[];
+                return (
+                  <div
+                    className={classNames(s.username, {
+                      [s.unavailable]: Boolean(
+                        dayData.filter(
+                          ({ startTime, endTime }) => !startTime || !endTime
+                        ).length
+                      ),
+                    })}
+                    key={username}
+                  >
+                    {username}
+                  </div>
+                );
+              })}
             </div>
             <div
               ref={slider}
@@ -122,7 +137,7 @@ export const AvailibilityGrid = () => {
                         25;
                       const left = parseInt(getLocaleHour(item.startTime)) * 50;
                       return (
-                        <a
+                        <div
                           className={s.available}
                           style={{ left, width }}
                           key={`${e.username}-${item.startTime}`}
@@ -138,7 +153,7 @@ export const AvailibilityGrid = () => {
                               !
                             </div>
                           )}
-                        </a>
+                        </div>
                       );
                     })}
                   </div>
