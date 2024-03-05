@@ -197,9 +197,12 @@ export const Availibilities = () => {
       });
   }, [authKey]);
 
+  const innerHeight =
+    typeof window !== "undefined" ? window.innerHeight : "100vh";
+
   return (
     <Suspense>
-      <div className={s.wrapper}>
+      <div className={s.wrapper} style={{ height: innerHeight }}>
         {isAuthed && (
           <div className={s.box}>
             <div
