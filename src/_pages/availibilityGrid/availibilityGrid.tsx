@@ -131,10 +131,9 @@ export const AvailibilityGrid = () => {
                     {dayData.map((item) => {
                       if (!item.startTime || !item.endTime) return;
                       const width =
-                        (parseInt(getLocaleHour(item.endTime)) -
-                          parseInt(getLocaleHour(item.startTime))) *
+                        (parseInt(item.endTime) - parseInt(item.startTime)) *
                           50 +
-                        25;
+                        50;
                       const left = parseInt(getLocaleHour(item.startTime)) * 50;
                       return (
                         <div

@@ -16,7 +16,7 @@
     padding: 20px 0;
     border-radius: 4px;
     width: 100%;
-    max-width: 833px;
+    max-width: 1024px;
     background: #fff;
 }
 
@@ -62,8 +62,10 @@
 .titleWrapper {
     padding-left: 20px;
     display: grid;
+    width: 100%;
     grid-template-columns: auto auto;
     gap: 25px;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
 }
@@ -81,6 +83,7 @@
     user-select: none;
     font-size: 14px;
     width: 50px;
+    text-align: center;
     line-height: 150%;
     color: #B7B7B7;
 }
