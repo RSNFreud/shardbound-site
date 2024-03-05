@@ -70,6 +70,7 @@ export const TimePicker = ({
   };
 
   const deleteItem = (index: number) => {
+    if (times.length === 1) return setTimes(DEFAULT_TIME);
     setTimes(times.filter((_, count) => count !== index));
   };
 
@@ -147,27 +148,26 @@ export const TimePicker = ({
                 />
                 <Input
                   placeholder="Enter comment"
+                  className={s.comment}
                   value={comment}
                   onInput={(e) =>
                     updateTime("comment", (e.target as any).value, count)
                   }
                 />
               </div>
-              {count !== 0 && (
-                <div className={s.delete} onClick={() => deleteItem(count)}>
-                  <svg
-                    width="24"
-                    height="24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </div>
-              )}
+              <div className={s.delete} onClick={() => deleteItem(count)}>
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </div>
             </div>
             {count === times.length - 1 && (
               <div className={s.addTime} onClick={addTimeslot}>
