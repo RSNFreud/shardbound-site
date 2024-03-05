@@ -88,16 +88,36 @@ export const TimePicker = ({
 
   const handleContinue = () => {
     const hasErrors = times.filter((time, index) => {
+      const end = generateTimestamp(getLocaleHour(time.endTime));
       if (time.startTime && !time.endTime) {
         updateTime("error", "Please choose a valid set of times", index);
         return time;
       }
-
+      if (
+        end.getHours() > 12 ||
+        (end.getHours() === 0 && end.getMinutes() > 0)
+      ) {
+        updateTime(
+          "error",
+          "Please choose a time within the current day!",
+          index
+        );
+        return time;
+      }
       updateTime("error", "", index);
     });
     if (hasErrors.length) return;
-    onUpdate(times);
+    const withoutErrors = times.map((e) => ({ ...e, error: "" }));
+    onUpdate(withoutErrors);
     next();
+  };
+
+  const generateTimestamp = (time: string) => {
+    const [hour, minute] = time.split(":");
+    const date = new Date();
+    date.setHours(parseInt(hour));
+    date.setMinutes(parseInt(minute));
+    return date;
   };
 
   return (
