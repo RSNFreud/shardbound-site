@@ -48,15 +48,6 @@ export const TEAM_MEMBERS: {
             discord: '380999267524935680',
         },
         {
-            group: ["Designers"],
-            role: "Designer",
-            name: "Evat",
-            image: Evat,
-            location: "United States",
-            discord: "803713655912267797",
-            twitter: "EvatLeigh"
-        },
-        {
             group: ['Development Managers'],
             role: 'Development & Design Manager',
             name: 'Freud',
