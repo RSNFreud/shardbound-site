@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Label } from "../label/label";
 import s from "./timepicker.module.scss";
 import { Button } from "../button/button";
+import { Input } from "../input/input";
 
 type PropsType = {
   label: string;
@@ -16,6 +17,7 @@ export type TimeType = {
   startTime: string;
   endTime: string;
   error?: string;
+  comment?: string;
 };
 
 export const addLeadingZero = (time: number) => {
@@ -45,7 +47,9 @@ export const getLocaleHour = (time: string) => {
   )}`;
 };
 
-export const DEFAULT_TIME = [{ startTime: "", endTime: "", error: "" }];
+export const DEFAULT_TIME = [
+  { startTime: "", endTime: "", error: "", comment: "" },
+];
 
 export const TimePicker = ({
   label,
@@ -113,7 +117,7 @@ export const TimePicker = ({
     <div>
       <Label text={label} />
       <div className={s.times}>
-        {times?.map(({ startTime, endTime, error }, count) => (
+        {times?.map(({ startTime, endTime, error, comment }, count) => (
           <div key={count}>
             <div className={s.rowWrapper}>
               <div className={s.row}>
@@ -139,6 +143,13 @@ export const TimePicker = ({
                       getUTCHour((e.target as any).value),
                       count
                     )
+                  }
+                />
+                <Input
+                  placeholder="Enter comment"
+                  value={comment}
+                  onInput={(e) =>
+                    updateTime("comment", (e.target as any).value, count)
                   }
                 />
               </div>

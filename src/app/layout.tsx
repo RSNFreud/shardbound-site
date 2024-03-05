@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import "react-tooltip/dist/react-tooltip.css";
 import "./globals.scss";
 import classNames from "classnames";
 import { RenderLayout } from "@/_components/renderLayout/renderLayout";

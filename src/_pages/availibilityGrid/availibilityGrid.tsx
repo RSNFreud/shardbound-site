@@ -122,14 +122,23 @@ export const AvailibilityGrid = () => {
                         25;
                       const left = parseInt(getLocaleHour(item.startTime)) * 50;
                       return (
-                        <div
+                        <a
                           className={s.available}
                           style={{ left, width }}
                           key={`${e.username}-${item.startTime}`}
                         >
                           {getLocaleHour(item.startTime)} -{" "}
                           {getLocaleHour(item.endTime)}
-                        </div>
+                          {item.comment && (
+                            <div
+                              className={s.comment}
+                              data-tooltip-id={"tooltip"}
+                              data-tooltip-content={item.comment}
+                            >
+                              !
+                            </div>
+                          )}
+                        </a>
                       );
                     })}
                   </div>
