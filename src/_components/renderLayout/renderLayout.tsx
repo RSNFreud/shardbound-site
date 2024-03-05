@@ -30,7 +30,7 @@ export const RenderLayout = ({ children }: { children: React.ReactNode }) => {
           />
         </div>
       )}
-      <Tooltip id="tooltip" />
+      <Tooltip id="tooltip" className={s.tooltip} />
     </>
   );
 };

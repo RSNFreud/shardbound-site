@@ -41,7 +41,6 @@ export const getLocaleHour = (time: string) => {
   const date = new Date();
   date.setUTCHours(parseInt(hour));
   date.setUTCMinutes(parseInt(minute));
-
   return `${addLeadingZero(date.getHours())}:${addLeadingZero(
     date.getMinutes()
   )}`;
@@ -89,29 +88,16 @@ export const TimePicker = ({
 
   const handleContinue = () => {
     const hasErrors = times.filter((time, index) => {
-      const start = generateTimestamp(getLocaleHour(time.startTime));
-      const end = generateTimestamp(getLocaleHour(time.endTime));
       if (time.startTime && !time.endTime) {
         updateTime("error", "Please choose a valid set of times", index);
         return time;
       }
-      if (start.getTime() > end.getTime()) {
-        updateTime("error", "Please choose a valid set of times", index);
-        return time;
-      }
+
       updateTime("error", "", index);
     });
     if (hasErrors.length) return;
     onUpdate(times);
     next();
-  };
-
-  const generateTimestamp = (time: string) => {
-    const [hour, minute] = time.split(":");
-    const date = new Date();
-    date.setHours(parseInt(hour));
-    date.setMinutes(parseInt(minute));
-    return date;
   };
 
   return (

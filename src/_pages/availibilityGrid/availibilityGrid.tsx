@@ -29,7 +29,7 @@ type DataType = {
 };
 
 export const AvailibilityGrid = () => {
-  const [activeDay, setActiveDay] = useState(days[0]);
+  const [activeDay, setActiveDay] = useState(0);
   const [data, setData] = useState<DataType[]>();
   const slider = useRef<HTMLDivElement>(null);
   let startX: number;
@@ -61,6 +61,14 @@ export const AvailibilityGrid = () => {
     slider.current.scrollLeft = scrollLeft - walk;
   };
 
+  const getDate = (time: string) => {
+    const [hour, minute] = time.split(":");
+    const date = new Date();
+    date.setUTCHours(parseInt(hour));
+    date.setUTCMinutes(parseInt(minute));
+    return date;
+  };
+
   if (!data || !data.length) return null;
 
   return (
@@ -70,11 +78,11 @@ export const AvailibilityGrid = () => {
           <div className={s.titleWrapper}>
             <div className={s.title}>Shardborne Availability</div>
             <div className={s.days}>
-              {days.map((day) => (
+              {days.map((day, count) => (
                 <div
-                  onClick={() => setActiveDay(day)}
+                  onClick={() => setActiveDay(count)}
                   className={classNames(s.day, {
-                    [s.active]: day === activeDay,
+                    [s.active]: day === days[activeDay],
                   })}
                   key={day}
                 >
@@ -88,7 +96,7 @@ export const AvailibilityGrid = () => {
               {data?.map((e) => {
                 const { username } = e;
                 const dayData = JSON.parse(
-                  (e as any)[activeDay.toLowerCase()]
+                  (e as any)[days[activeDay].toLowerCase()]
                 ) as TimeType[];
                 return (
                   <div
@@ -115,7 +123,7 @@ export const AvailibilityGrid = () => {
               onMouseMove={moveScroll}
             >
               <div className={s.times}>
-                {Array.from({ length: 24 }).map((_, count) => (
+                {Array.from({ length: 25 }).map((_, count) => (
                   <div className={s.time} key={count}>
                     {addLeadingZero(count)}:00
                   </div>
@@ -124,25 +132,63 @@ export const AvailibilityGrid = () => {
 
               {data.map((e) => {
                 const dayData = JSON.parse(
-                  (e as any)[activeDay.toLowerCase()]
+                  (e as any)[days[activeDay].toLowerCase()]
                 ) as TimeType[];
                 return (
                   <div className={s.row} key={e.username}>
                     {dayData.map((item) => {
                       if (!item.startTime || !item.endTime) return;
-                      const width =
-                        (parseInt(item.endTime) - parseInt(item.startTime)) *
-                          50 +
-                        50;
-                      const left = parseInt(getLocaleHour(item.startTime)) * 50;
+                      const start = getDate(item.startTime);
+                      const end = getDate(item.endTime);
+                      if (start.getTime() > end.getTime()) {
+                        end.setDate(end.getDate() + 1);
+                      }
+                      const diff = Math.round(
+                        Math.abs(start.getTime() - end.getTime()) / 36e5
+                      );
+                      let excess = 0;
+                      let endTime = getLocaleHour(item.endTime);
+                      if (
+                        end.getHours() >= 0 &&
+                        end.getHours() <
+                          parseInt(getLocaleHour(item.startTime)) &&
+                        parseInt(getLocaleHour(item.startTime)) > 12
+                      ) {
+                        excess = end.getHours() + (diff <= 2 ? 0 : 1);
+                        // setData((data) =>
+                        //   data?.map((item) => {
+                        //     if (item.username === e.username) {
+                        //       if (!days[activeDay + 1]) return item;
+                        //       const nextDay: TimeType[] = JSON.parse(
+                        //         (item as any)[days[activeDay + 1].toLowerCase()]
+                        //       );
+                        //       nextDay.push({
+                        //         startTime: "00:00",
+                        //         endTime: `${getLocaleHour(
+                        //           `${addLeadingZero(
+                        //             end.getUTCHours()
+                        //           )}:${addLeadingZero(end.getUTCMinutes())}`
+                        //         )}`,
+                        //       });
+                        //       endTime = "00:00";
+                        //       (item as any)[days[activeDay + 1].toLowerCase()] =
+                        //         JSON.stringify(nextDay);
+                        //       return item;
+                        //     } else return item;
+                        //   })
+                        // );
+                        // Insert excess to next day
+                      }
+                      const width = (diff - excess) * 50;
+                      const left = start.getHours() * 50;
+
                       return (
                         <div
                           className={s.available}
                           style={{ left, width }}
                           key={`${e.username}-${item.startTime}`}
                         >
-                          {getLocaleHour(item.startTime)} -{" "}
-                          {getLocaleHour(item.endTime)}
+                          {getLocaleHour(item.startTime)} - {endTime}
                           {item.comment && (
                             <div
                               className={s.comment}
