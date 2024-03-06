@@ -89,21 +89,19 @@ export const TimePicker = ({
   const handleContinue = () => {
     const hasErrors = times.filter((time, index) => {
       const end = generateTimestamp(getLocaleHour(time.endTime));
+
       if (time.startTime && !time.endTime) {
         updateTime("error", "Please choose a valid set of times", index);
         return time;
       }
-      if (
-        end.getHours() > 12 ||
-        (end.getHours() === 0 && end.getMinutes() > 0)
-      ) {
-        updateTime(
-          "error",
-          "Please choose a time within the current day!",
-          index
-        );
-        return time;
-      }
+      // if (totalMinutes > 0) {
+      //   updateTime(
+      //     "error",
+      //     "Please choose a time within the current day!",
+      //     index
+      //   );
+      //   return time;
+      // }
       updateTime("error", "", index);
     });
     if (hasErrors.length) return;

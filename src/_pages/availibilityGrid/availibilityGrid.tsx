@@ -123,7 +123,7 @@ export const AvailibilityGrid = () => {
               onMouseMove={moveScroll}
             >
               <div className={s.times}>
-                {Array.from({ length: 25 }).map((_, count) => (
+                {Array.from({ length: 24 }).map((_, count) => (
                   <div className={s.time} key={count}>
                     {addLeadingZero(count)}:00
                   </div>
@@ -140,45 +140,18 @@ export const AvailibilityGrid = () => {
                       if (!item.startTime || !item.endTime) return;
                       const start = getDate(item.startTime);
                       const end = getDate(item.endTime);
-                      if (start.getTime() > end.getTime()) {
-                        end.setDate(end.getDate() + 1);
-                      }
+
                       const diff = Math.round(
                         Math.abs(start.getTime() - end.getTime()) / 36e5
                       );
                       let excess = 0;
                       let endTime = getLocaleHour(item.endTime);
-                      if (
-                        end.getHours() >= 0 &&
-                        end.getHours() <
-                          parseInt(getLocaleHour(item.startTime)) &&
-                        parseInt(getLocaleHour(item.startTime)) > 12
-                      ) {
-                        excess = end.getHours() + (diff <= 2 ? 0 : 1);
-                        // setData((data) =>
-                        //   data?.map((item) => {
-                        //     if (item.username === e.username) {
-                        //       if (!days[activeDay + 1]) return item;
-                        //       const nextDay: TimeType[] = JSON.parse(
-                        //         (item as any)[days[activeDay + 1].toLowerCase()]
-                        //       );
-                        //       nextDay.push({
-                        //         startTime: "00:00",
-                        //         endTime: `${getLocaleHour(
-                        //           `${addLeadingZero(
-                        //             end.getUTCHours()
-                        //           )}:${addLeadingZero(end.getUTCMinutes())}`
-                        //         )}`,
-                        //       });
-                        //       endTime = "00:00";
-                        //       (item as any)[days[activeDay + 1].toLowerCase()] =
-                        //         JSON.stringify(nextDay);
-                        //       return item;
-                        //     } else return item;
-                        //   })
-                        // );
-                        // Insert excess to next day
+
+                      if (end.getDate() !== start.getDate()) {
+                        if (end.getHours() === 0) excess = 0;
+                        else excess = end.getHours();
                       }
+
                       const width = (diff - excess) * 50;
                       const left = start.getHours() * 50;
 
