@@ -6,6 +6,7 @@ import {
   TimeType,
   addLeadingZero,
   getLocaleHour,
+  getUTCHour,
 } from "@/_components/timePicker/timepicker";
 
 const days = [
@@ -20,12 +21,13 @@ const days = [
 
 type DataType = {
   username: string;
-  monday: string;
-  tuesday: string;
-  wednesday: string;
-  thursday: string;
-  friday: string;
-  sunday: string;
+  monday: string | TimeType[];
+  tuesday: string | TimeType[];
+  wednesday: string | TimeType[];
+  thursday: string | TimeType[];
+  friday: string | TimeType[];
+  saturday: string | TimeType[];
+  sunday: string | TimeType[];
 };
 
 export const AvailibilityGrid = () => {
@@ -41,7 +43,7 @@ export const AvailibilityGrid = () => {
       .then(async (e) => {
         if (e.ok) {
           const res = await e.json();
-          setData(res);
+          setData(resolveData(res));
         }
       })
       .catch();
@@ -67,6 +69,65 @@ export const AvailibilityGrid = () => {
     date.setUTCHours(parseInt(hour));
     date.setUTCMinutes(parseInt(minute));
     return date;
+  };
+
+  const resolveData = (data: DataType[]) => {
+    const finalData: DataType[] = [];
+    data.map((day) => {
+      const user = day.username;
+
+      const dayData: DataType = {
+        username: user,
+        monday: [],
+        tuesday: [],
+        wednesday: [],
+        thursday: [],
+        friday: [],
+        sunday: [],
+        saturday: [],
+      };
+
+      let excessTime: string;
+
+      Object.entries(day).map(([key, value], count) => {
+        if (key === "username") return null;
+        const times: TimeType[] = JSON.parse(value as string);
+        if (count === Object.entries(day).length - 1 && excessTime?.length) {
+          dayData.monday = [
+            ...(dayData.monday as TimeType[]),
+            { startTime: getUTCHour("00:00"), endTime: excessTime },
+          ];
+          excessTime = "";
+        }
+        if (excessTime?.length) {
+          times.push({ startTime: getUTCHour("00:00"), endTime: excessTime });
+          excessTime = "";
+        }
+        times.map((time) => {
+          const start = getDate(time.startTime);
+          const end = getDate(time.endTime);
+          if (start.getTime() > end.getTime()) {
+            end.setDate(end.getDate() + 1);
+            excessTime = `${addLeadingZero(end.getUTCHours())}:${addLeadingZero(
+              end.getUTCMinutes()
+            )}`;
+          }
+          if (end.getDate() > start.getDate()) {
+            excessTime = `${addLeadingZero(end.getUTCHours())}:${addLeadingZero(
+              end.getUTCMinutes()
+            )}`;
+          }
+          if (!(dayData as any)[key]) (dayData as any)[key] = [time];
+          else
+            (dayData as any)[key] = [
+              ...((dayData as any)[key] as TimeType[]),
+              time,
+            ];
+        });
+      });
+      finalData.push(dayData);
+    });
+    return finalData;
   };
 
   if (!data || !data.length) return null;
@@ -95,9 +156,10 @@ export const AvailibilityGrid = () => {
             <div className={s.usernames}>
               {data?.map((e) => {
                 const { username } = e;
-                const dayData = JSON.parse(
-                  (e as any)[days[activeDay].toLowerCase()]
-                ) as TimeType[];
+                const dayData: TimeType[] = (e as any)[
+                  days[activeDay].toLowerCase()
+                ];
+
                 return (
                   <div
                     className={classNames(s.username, {
@@ -131,9 +193,10 @@ export const AvailibilityGrid = () => {
               </div>
 
               {data.map((e) => {
-                const dayData = JSON.parse(
-                  (e as any)[days[activeDay].toLowerCase()]
-                ) as TimeType[];
+                const dayData: TimeType[] = (e as any)[
+                  days[activeDay].toLowerCase()
+                ];
+                const WIDTH = 50;
                 return (
                   <div className={s.row} key={e.username}>
                     {dayData.map((item) => {
@@ -144,16 +207,54 @@ export const AvailibilityGrid = () => {
                       const diff = Math.round(
                         Math.abs(start.getTime() - end.getTime()) / 36e5
                       );
-                      let excess = 0;
+                      let width = diff * WIDTH;
                       let endTime = getLocaleHour(item.endTime);
+                      if (start.getHours() === 0) {
+                        width = end.getHours() * WIDTH;
+                      }
+                      if (
+                        start.getTime() > end.getTime() &&
+                        start.getHours() > 0
+                      ) {
+                        const newDate = new Date(end);
+                        newDate.setHours(23);
+                        newDate.setMinutes(59);
+                        endTime = "00:00";
 
-                      if (end.getDate() !== start.getDate()) {
-                        if (end.getHours() === 0) excess = 0;
-                        else excess = end.getHours();
+                        width =
+                          Math.round(
+                            Math.abs(start.getTime() - newDate.getTime()) / 36e5
+                          ) * WIDTH;
                       }
 
-                      const width = (diff - excess) * 50;
-                      const left = start.getHours() * 50;
+                      if (
+                        start.getHours() !== 0 &&
+                        end.getHours() === 0 &&
+                        end.getMinutes() > 0
+                      ) {
+                        const newDate = new Date(end);
+                        newDate.setDate(start.getDate());
+                        newDate.setHours(23);
+                        newDate.setMinutes(59);
+                        endTime = "00:00";
+                        width =
+                          Math.round(
+                            Math.abs(start.getTime() - newDate.getTime()) / 36e5
+                          ) * WIDTH;
+                      }
+                      if (
+                        start.getHours() === 0 &&
+                        end.getHours() === 0 &&
+                        end.getMinutes() > 0
+                      ) {
+                        const newDate = new Date(end);
+                        newDate.setDate(start.getDate());
+                        newDate.setHours(23);
+                        newDate.setMinutes(59);
+                        width = WIDTH;
+                      }
+
+                      const left = start.getHours() * WIDTH;
 
                       return (
                         <div
