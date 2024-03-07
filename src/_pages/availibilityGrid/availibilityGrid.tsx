@@ -219,7 +219,7 @@ export const AvailibilityGrid = () => {
                         const newDate = new Date(end);
                         newDate.setHours(23);
                         newDate.setMinutes(59);
-                        endTime = "00:00";
+                        // endTime = "00:00";
 
                         width =
                           Math.round(
