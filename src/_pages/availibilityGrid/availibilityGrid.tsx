@@ -192,31 +192,37 @@ export const AvailibilityGrid = () => {
                 const dayData: TimeType[] = (e as any)[
                   days[activeDay].toLowerCase()
                 ];
-                const WIDTH = 50;
                 return (
                   <div className={s.row} key={e.username}>
-                    {dayData.map((item) => {
-                      if (!item.startTime || !item.endTime) return;
+                    {dayData
+                      .sort((a, b) =>
+                        getDate(a.startTime).getHours() >
+                        getDate(b.startTime).getHours()
+                          ? 0
+                          : -1
+                      )
+                      .map((item) => {
+                        if (!item.startTime || !item.endTime) return;
 
-                      return (
-                        <div
-                          className={s.available}
-                          key={`${e.username}-${item.startTime}`}
-                        >
-                          {getLocaleHour(item.startTime)} -{" "}
-                          {getLocaleHour(item.endTime)}
-                          {item.comment && (
-                            <div
-                              className={s.comment}
-                              data-tooltip-id={"tooltip"}
-                              data-tooltip-content={item.comment}
-                            >
-                              !
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
+                        return (
+                          <div
+                            className={s.available}
+                            key={`${e.username}-${item.startTime}`}
+                          >
+                            {getLocaleHour(item.startTime)} -{" "}
+                            {getLocaleHour(item.endTime)}
+                            {item.comment && (
+                              <div
+                                className={s.comment}
+                                data-tooltip-id={"tooltip"}
+                                data-tooltip-content={item.comment}
+                              >
+                                !
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
                   </div>
                 );
               })}
