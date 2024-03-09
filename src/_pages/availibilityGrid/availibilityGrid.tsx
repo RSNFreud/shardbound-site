@@ -219,11 +219,27 @@ export const AvailibilityGrid = () => {
                         const newDate = new Date(end);
                         newDate.setHours(23);
                         newDate.setMinutes(59);
-                        // endTime = "00:00";
-
                         width =
                           Math.round(
                             Math.abs(start.getTime() - newDate.getTime()) / 36e5
+                          ) * WIDTH;
+                      }
+
+                      if (
+                        start.getHours() !== 0 &&
+                        start.getDate() !== end.getDate()
+                      ) {
+                        const newDate = new Date(end);
+                        const newStart = new Date(start);
+                        newDate.setDate(start.getDate());
+                        newDate.setHours(23);
+                        newDate.setMinutes(59);
+                        newStart.setMinutes(0);
+
+                        width =
+                          Math.round(
+                            Math.abs(newStart.getTime() - newDate.getTime()) /
+                              36e5
                           ) * WIDTH;
                       }
 
