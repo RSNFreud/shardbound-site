@@ -106,7 +106,11 @@ export const AvailibilityGrid = () => {
         times.map((time) => {
           const start = getDate(time.startTime);
           const end = getDate(time.endTime);
-          if (start.getTime() > end.getTime()) {
+
+          if (
+            start.getHours() > end.getHours() &&
+            start.getTime() > end.getTime()
+          ) {
             end.setDate(end.getDate() + 1);
             excessTime = `${addLeadingZero(end.getUTCHours())}:${addLeadingZero(
               end.getUTCMinutes()
@@ -211,8 +215,7 @@ export const AvailibilityGrid = () => {
                       let endTime = getLocaleHour(item.endTime);
                       if (start.getHours() === 0) {
                         width = end.getHours() * WIDTH;
-                      }
-                      if (
+                      } else if (
                         start.getTime() > end.getTime() &&
                         start.getHours() > 0
                       ) {
@@ -223,10 +226,9 @@ export const AvailibilityGrid = () => {
                           Math.round(
                             Math.abs(start.getTime() - newDate.getTime()) / 36e5
                           ) * WIDTH;
-                      }
-
-                      if (
+                      } else if (
                         start.getHours() !== 0 &&
+                        start.getHours() >= 12 &&
                         start.getDate() !== end.getDate()
                       ) {
                         const newDate = new Date(end);
@@ -235,15 +237,12 @@ export const AvailibilityGrid = () => {
                         newDate.setHours(23);
                         newDate.setMinutes(59);
                         newStart.setMinutes(0);
-
                         width =
                           Math.round(
                             Math.abs(newStart.getTime() - newDate.getTime()) /
                               36e5
                           ) * WIDTH;
-                      }
-
-                      if (
+                      } else if (
                         start.getHours() !== 0 &&
                         end.getHours() === 0 &&
                         end.getMinutes() > 0
@@ -257,8 +256,7 @@ export const AvailibilityGrid = () => {
                           Math.round(
                             Math.abs(start.getTime() - newDate.getTime()) / 36e5
                           ) * WIDTH;
-                      }
-                      if (
+                      } else if (
                         start.getHours() === 0 &&
                         end.getHours() === 0 &&
                         end.getMinutes() > 0
