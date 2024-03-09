@@ -188,14 +188,6 @@ export const AvailibilityGrid = () => {
               onMouseUp={() => (isDown = false)}
               onMouseMove={moveScroll}
             >
-              <div className={s.times}>
-                {Array.from({ length: 24 }).map((_, count) => (
-                  <div className={s.time} key={count}>
-                    {addLeadingZero(count)}:00
-                  </div>
-                ))}
-              </div>
-
               {data.map((e) => {
                 const dayData: TimeType[] = (e as any)[
                   days[activeDay].toLowerCase()
@@ -205,78 +197,14 @@ export const AvailibilityGrid = () => {
                   <div className={s.row} key={e.username}>
                     {dayData.map((item) => {
                       if (!item.startTime || !item.endTime) return;
-                      const start = getDate(item.startTime);
-                      const end = getDate(item.endTime);
-
-                      const diff = Math.round(
-                        Math.abs(start.getTime() - end.getTime()) / 36e5
-                      );
-                      let width = diff * WIDTH;
-                      let endTime = getLocaleHour(item.endTime);
-                      if (start.getHours() === 0) {
-                        width = end.getHours() * WIDTH;
-                      } else if (
-                        start.getTime() > end.getTime() &&
-                        start.getHours() > 0
-                      ) {
-                        const newDate = new Date(end);
-                        newDate.setHours(23);
-                        newDate.setMinutes(59);
-                        width =
-                          Math.round(
-                            Math.abs(start.getTime() - newDate.getTime()) / 36e5
-                          ) * WIDTH;
-                      } else if (
-                        start.getHours() !== 0 &&
-                        start.getHours() >= 12 &&
-                        start.getDate() !== end.getDate()
-                      ) {
-                        const newDate = new Date(end);
-                        const newStart = new Date(start);
-                        newDate.setDate(start.getDate());
-                        newDate.setHours(23);
-                        newDate.setMinutes(59);
-                        newStart.setMinutes(0);
-                        width =
-                          Math.round(
-                            Math.abs(newStart.getTime() - newDate.getTime()) /
-                              36e5
-                          ) * WIDTH;
-                      } else if (
-                        start.getHours() !== 0 &&
-                        end.getHours() === 0 &&
-                        end.getMinutes() > 0
-                      ) {
-                        const newDate = new Date(end);
-                        newDate.setDate(start.getDate());
-                        newDate.setHours(23);
-                        newDate.setMinutes(59);
-                        endTime = "00:00";
-                        width =
-                          Math.round(
-                            Math.abs(start.getTime() - newDate.getTime()) / 36e5
-                          ) * WIDTH;
-                      } else if (
-                        start.getHours() === 0 &&
-                        end.getHours() === 0 &&
-                        end.getMinutes() > 0
-                      ) {
-                        const newDate = new Date(end);
-                        newDate.setDate(start.getDate());
-                        newDate.setHours(23);
-                        newDate.setMinutes(59);
-                        width = WIDTH;
-                      }
-
-                      const left = start.getHours() * WIDTH;
 
                       return (
                         <div
                           className={s.available}
-                          style={{ left, width }}
                           key={`${e.username}-${item.startTime}`}
                         >
-                          {getLocaleHour(item.startTime)} - {endTime}
+                          {getLocaleHour(item.startTime)} -{" "}
+                          {getLocaleHour(item.endTime)}
                           {item.comment && (
                             <div
                               className={s.comment}
