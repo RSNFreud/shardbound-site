@@ -8,6 +8,7 @@ import {
   getLocaleHour,
   getUTCHour,
 } from "@/_components/timePicker/timepicker";
+import { useSearchParams } from "next/navigation";
 
 const days = [
   "MONDAY",
@@ -34,6 +35,7 @@ export const AvailibilityGrid = () => {
   const [activeDay, setActiveDay] = useState(0);
   const [data, setData] = useState<DataType[]>();
   const slider = useRef<HTMLDivElement>(null);
+  const params = useSearchParams();
   let startX: number;
   let scrollLeft: number;
   let isDown = false;
@@ -203,14 +205,15 @@ export const AvailibilityGrid = () => {
                       )
                       .map((item) => {
                         if (!item.startTime || !item.endTime) return;
+                        const is12Hour = params.get("12hour");
 
                         return (
                           <div
                             className={s.available}
                             key={`${e.username}-${item.startTime}`}
                           >
-                            {getLocaleHour(item.startTime)} -{" "}
-                            {getLocaleHour(item.endTime)}
+                            {getLocaleHour(item.startTime, Boolean(is12Hour))} -{" "}
+                            {getLocaleHour(item.endTime, Boolean(is12Hour))}
                             {item.comment && (
                               <div
                                 className={s.comment}

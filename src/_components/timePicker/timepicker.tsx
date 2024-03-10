@@ -36,11 +36,18 @@ export const getUTCHour = (time: string) => {
   )}`;
 };
 
-export const getLocaleHour = (time: string) => {
+export const getLocaleHour = (time: string, shortHour?: boolean) => {
   const [hour, minute] = time.split(":");
   const date = new Date();
   date.setUTCHours(parseInt(hour));
   date.setUTCMinutes(parseInt(minute));
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  const ampm = hours >= 12 ? "pm" : "am";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  const strTime = hours + ":" + addLeadingZero(minutes) + " " + ampm;
+  if (shortHour) return strTime;
   return `${addLeadingZero(date.getHours())}:${addLeadingZero(
     date.getMinutes()
   )}`;
