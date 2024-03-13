@@ -94,18 +94,25 @@ export const AvailibilityGrid = () => {
       Object.entries(day).map(([key, value], count) => {
         if (key === "username") return null;
         const times: TimeType[] = JSON.parse(value as string);
-        if (count === Object.entries(day).length - 1 && excessTime?.length) {
-          dayData.monday = [
-            ...(dayData.monday as TimeType[]),
-            { startTime: getUTCHour("00:00"), endTime: excessTime },
-          ];
-          excessTime = "";
-        }
+        // if (count === Object.entries(day).length - 1 && excessTime?.length) {
+        //   dayData.monday = [
+        //     ...(dayData.monday as TimeType[]),
+        //     { startTime: getUTCHour("00:00"), endTime: excessTime },
+        //   ];
+        //   excessTime = "";
+        // }
         if (excessTime?.length) {
           times.push({ startTime: getUTCHour("00:00"), endTime: excessTime });
           excessTime = "";
         }
         times.map((time) => {
+          if (
+            !time.startTime ||
+            !time.endTime ||
+            time.startTime.includes("NaN")
+          )
+            return;
+
           const start = getDate(time.startTime);
           const end = getDate(time.endTime);
 
@@ -172,7 +179,7 @@ export const AvailibilityGrid = () => {
                       [s.unavailable]: Boolean(
                         dayData.filter(
                           ({ startTime, endTime }) => !startTime || !endTime
-                        ).length
+                        ).length > 0 || !dayData.length
                       ),
                     })}
                     key={username}
