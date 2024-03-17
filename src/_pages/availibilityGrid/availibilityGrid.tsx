@@ -115,6 +115,13 @@ export const AvailibilityGrid = () => {
 
           const start = getDate(time.startTime);
           const end = getDate(time.endTime);
+          if (
+            start.getHours() == 0 &&
+            end.getHours() == 0 &&
+            start.getMinutes() == 0 &&
+            end.getMinutes() == 0
+          )
+            return;
 
           if (
             start.getHours() > end.getHours() &&
